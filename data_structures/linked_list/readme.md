@@ -1,0 +1,98 @@
+# Linked List
+
+- In a Linked List, we have values stored in differents address in memory. Ex: 0x123, 0x253, 0x22.
+
+___
+
+Q: A difference between Array and Linked List about how values are stored in memory?
+
+- Arrays: Values are stored one next to another in memory, so the compiler can use Pointers Arithmetic to find elements in the array.
+
+- Linked List: Values can be stored in any location in memory that are free, because of this randomness of address the pointers arithmetic cannot be used. 
+
+___
+
+- In C, we need to create a component of data structure to encapsulates the node information.
+
+```c
+typedef struct node {
+    int number;
+    struct node *next;
+} node;
+```
+
+- Implement Linked List in C
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct node {
+    int number;
+    struct node *next;
+} node;
+
+int main(void) {
+
+    node *list = NULL;
+
+    //A node is created with garbage values in it
+    node *n = malloc(sizeof(node));
+
+    //Check if there is enough space in memory to create the node
+    if(n != NULL) {
+        //n is filled with garbage values, reassigning the values.
+        n -> number = 1;
+        n -> next = NULL;
+    }
+
+    //Assigning the node as the first item of the list.
+    list = n;
+
+    n = malloc(sizeof(node));
+
+    if(n == NULL) {
+        return 1;
+    }
+
+    n -> number = 2;
+    n -> next = NULL;
+
+    list -> next = n;
+
+    n = malloc(sizeof(node));
+
+    if(n == NULL) {
+        return 1;
+    }
+
+    n -> number = 3;
+    n -> next = NULL;
+
+    list -> next -> next = n;
+
+    for(node *temp = list; temp != NULL; temp = temp -> next) {
+        printf("%i\n", temp -> number);
+    }
+
+    //Free memory from the nexts to the higher level of the list
+    free(list -> next -> next);
+    free(list -> next);
+    free(list);
+
+    return 0;
+}
+```
+
+## Complexity
+
+### Search
+
+Running Time: O(n)
+
+### Insert
+
+Running Time: O(n)
+
+- We cant use binary search with Linked List, since we cant calculate where all of our nodes are.
+- If maintain the list sorted is not necessary, the running time to insert will be O(1), since we can insert at the beginning with one step only.
